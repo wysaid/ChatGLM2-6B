@@ -35,9 +35,6 @@ thisDir=\$(cd dirname \$0; pwd)
 
 echo "current dir = \$(pwd)"
 
-git checkout main
-git pull
-
 pip3 install -r requirements.txt
 
 python3 web_demo.py
@@ -55,8 +52,9 @@ CMD ["bash", "run_web_demo.sh"]
 
 # run:
 
-#  docker run --gpus all -d --restart unless-stopped --name chatglm2-6b-webdemo \
-#         -v /var/run/docker.sock:/var/run/docker.sock \
-#         -p 40080:80 \
-#         -it \
-#         wysaid/chatglm2-6b:latest
+# docker run --gpus all -d --restart unless-stopped --name chatglm2-6b-webdemo \
+#     -v /var/run/docker.sock:/var/run/docker.sock \
+#     -v cache:/root/.cache \
+#     -p 40080:80 \
+#     -it \
+#     wysaid/chatglm2-6b:latest
