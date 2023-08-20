@@ -61,7 +61,9 @@ def parse_text(text):
 
 
 def predict(input, chatbot, max_length, top_p, temperature, history, past_key_values):
+    print('Q: ' + parse_text(input))
     chatbot.append((parse_text(input), ""))
+    responseText = "";
     for response, history, past_key_values in model.stream_chat(tokenizer, input, history, past_key_values=past_key_values,
                                                                 return_past_key_values=True,
                                                                 max_length=max_length, top_p=top_p,
@@ -69,6 +71,8 @@ def predict(input, chatbot, max_length, top_p, temperature, history, past_key_va
         chatbot[-1] = (parse_text(input), parse_text(response))
 
         yield chatbot, history, past_key_values
+        responseText = parse_text(response);
+    print("A: " + responseText)
 
 
 def reset_user_input():
@@ -80,7 +84,7 @@ def reset_state():
 
 
 with gr.Blocks() as demo:
-    gr.HTML("""<h1 align="center">ChatGLM2-6B</h1>""")
+    gr.HTML("""<h1 align="center">AI对话 - Based on ChatGLM2-6B</h1>""")
 
     chatbot = gr.Chatbot()
     with gr.Row():
@@ -105,4 +109,4 @@ with gr.Blocks() as demo:
 
     emptyBtn.click(reset_state, outputs=[chatbot, history, past_key_values], show_progress=True)
 
-demo.queue().launch(share=False, inbrowser=True)
+demo.queue().launch(share=False, inbrowser=True, server_port=80, server_name="0.0.0.0")
