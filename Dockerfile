@@ -35,14 +35,6 @@ thisDir=\$(cd dirname \$0; pwd)
 
 echo "current dir = \$(pwd)"
 
-mkdir -p /data && cd /data
-
-if [[ ! -d "chatglm2-6b" ]]; then
-    git clone https://github.com/THUDM/ChatGLM2-6B.git chatglm2-6b
-fi
-
-cd chatglm2-6b
-
 git checkout main
 git pull
 
